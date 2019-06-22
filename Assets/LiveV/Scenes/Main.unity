@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MusicPlayer: {fileID: 100000, guid: e7f5cb9a4f9a988459d0ab456a302009, type: 3}
-  MainCameraRig: {fileID: 6798039398370920037, guid: e198dacde68f3f940b3e6a19dada8c90,
+  MainCameraRig: {fileID: 757395260833815281, guid: 1683545290e44444898cc3e91a49017a,
     type: 3}
   prefabsNeedsActivation:
   - {fileID: 100006, guid: a5b3beeee6fe8a845bcea1a5a837a753, type: 3}

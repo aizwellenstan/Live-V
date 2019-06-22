@@ -40,7 +40,7 @@ namespace Live_V
             musicPlayer = (GameObject)Instantiate(MusicPlayer);
 
             var cameraRig = (GameObject)Instantiate(MainCameraRig);
-            mainCameraSwitcher = cameraRig.GetComponentInChildren<CameraSwitcher>();
+            //mainCameraSwitcher = cameraRig.GetComponentInChildren<CameraSwitcher>();
             screenoverlays = cameraRig.GetComponentInChildren<ScreenOverlay>();
 
             objectsNeedsActivation = new GameObject[prefabsNeedsActivation.Length];
@@ -51,14 +51,14 @@ namespace Live_V
 #else
             VRMAvaterController = await LoadVRMAvater();
 #endif
-            mainCameraSwitcher.GetComponentInChildren<CameraSwitcher>().vrm = VRMAvaterController;
+            //mainCameraSwitcher.GetComponentInChildren<CameraSwitcher>().vrm = VRMAvaterController;
             var VRMAnimator = VRMAvaterController.GetComponent<Animator>();
             var eye = transform.TransformPoint(VRMAnimator.GetBoneTransform(HumanBodyBones.LeftEye).transform.position);
             var eyediff = eye - DefaulteyePos;
             Debug.Log(eye);
-            var campos = cameraRig.GetComponentInChildren<FindObject>().FindGameObject();
-            foreach(Transform child in transform)child.position += eyediff;
-            foreach (Transform child in campos.transform)child.position += eyediff;
+            //var campos = cameraRig.GetComponentInChildren<FindObject>().FindGameObject();
+            //foreach(Transform child in transform)child.position += eyediff;
+            //foreach (Transform child in campos.transform)child.position += eyediff;
             cameraRig.SetActive(true);
 
             LipsSyncContoller = (GameObject)Instantiate(LipSync);
@@ -75,8 +75,8 @@ namespace Live_V
         public async UniTask<GameObject> LoadVRMAvater()
 #endif
         {
-            //var path = Application.streamingAssetsPath + "/Avater/model.vrm";
             var path = VRMLoadUniRx.GetVRMPath();
+            if(path == null){path = Application.streamingAssetsPath + "/Avater/model.vrm"; }
             byte[] VRMByteData;
             GameObject go;
 #if UNITY_WEBGL
