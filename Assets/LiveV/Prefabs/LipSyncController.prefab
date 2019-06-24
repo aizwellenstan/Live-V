@@ -65,7 +65,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87dc4588e8cf08b4f8426f2730284206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Avater: {fileID: 0}
   nodeA: {fileID: 400014}
   nodeE: {fileID: 400012}
   nodeI: {fileID: 400008}
@@ -96,6 +95,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   w: 0
+  target: {fileID: 0}
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

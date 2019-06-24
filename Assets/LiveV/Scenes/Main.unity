@@ -158,7 +158,9 @@ MonoBehaviour:
   miscPrefabs:
   - {fileID: 4554996663875175254, guid: c54eed7a305b53b48abdf02f6631e58d, type: 3}
   - {fileID: 391854073620853728, guid: e45d7db5cd02f5841b963e2cfe0b2184, type: 3}
+  - {fileID: 1498113847552427347, guid: e976385ca01105743b2c28c6ad250037, type: 3}
   LipSync: {fileID: 100000, guid: 4d3e3e583cbb02d4f9b9b5c58358019c, type: 3}
+  VRM: {fileID: 6114558805870253990, guid: 61f13022445b50d4f8367f41ff9f62e8, type: 3}
   cameraPoints:
   - {fileID: 1091299117}
   - {fileID: 2101757115}

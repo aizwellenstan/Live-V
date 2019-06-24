@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UniRx.Async;
-using UnityEngine.Networking;
 using VRM;
 
 namespace Live_V
@@ -14,52 +12,29 @@ namespace Live_V
         public GameObject[] prefabsNeedsActivation;
         public GameObject[] miscPrefabs;
         public GameObject LipSync;
+        public GameObject VRM;
 
         //Cameraの場所
         public Transform[] cameraPoints;
 
-        ScreenOverlay screenoverlays;
-
         //Instatiate後操作用
         GameObject musicPlayer;
-        CameraSwitcher mainCameraSwitcher;
         GameObject[] objectsNeedsActivation;
         GameObject VRMAvaterController;
         GameObject LipsSyncContoller;
-        VRMImporterContext context;
 
-        Vector3 DefaulteyePos = new Vector3(0, 0.7f, 0); //シヴィちゃん基準
 
-#if UNITY_WEBGL
         private void Awake()
-#else
-        private async UniTask Awake()
-#endif
         {
             //PrefabをInstantiateするよ!!
             musicPlayer = (GameObject)Instantiate(MusicPlayer);
 
             var cameraRig = (GameObject)Instantiate(MainCameraRig);
-            //mainCameraSwitcher = cameraRig.GetComponentInChildren<CameraSwitcher>();
-            screenoverlays = cameraRig.GetComponentInChildren<ScreenOverlay>();
 
             objectsNeedsActivation = new GameObject[prefabsNeedsActivation.Length];
             for (var i = 0; i < prefabsNeedsActivation.Length; i++)
                 objectsNeedsActivation[i] = (GameObject)Instantiate(prefabsNeedsActivation[i]);
-#if UNITY_WEBGL
             VRMAvaterController = LoadVRMAvater();
-#else
-            VRMAvaterController = await LoadVRMAvater();
-#endif
-            //mainCameraSwitcher.GetComponentInChildren<CameraSwitcher>().vrm = VRMAvaterController;
-            var VRMAnimator = VRMAvaterController.GetComponent<Animator>();
-            var eye = transform.TransformPoint(VRMAnimator.GetBoneTransform(HumanBodyBones.LeftEye).transform.position);
-            var eyediff = eye - DefaulteyePos;
-            Debug.Log(eye);
-            //var campos = cameraRig.GetComponentInChildren<FindObject>().FindGameObject();
-            //foreach(Transform child in transform)child.position += eyediff;
-            //foreach (Transform child in campos.transform)child.position += eyediff;
-            cameraRig.SetActive(true);
 
             LipsSyncContoller = (GameObject)Instantiate(LipSync);
             LipsSyncContoller.GetComponent<LipSyncController>().target = VRMAvaterController.GetComponent<VRMBlendShapeProxy>();
@@ -69,35 +44,9 @@ namespace Live_V
             GetComponent<Animator>().enabled = true;
             
         }
-#if UNITY_WEBGL
         public GameObject LoadVRMAvater()
-#else
-        public async UniTask<GameObject> LoadVRMAvater()
-#endif
         {
-            var path = VRMLoadUniRx.GetVRMPath();
-            if(path == null){path = Application.streamingAssetsPath + "/Avater/model.vrm"; }
-            byte[] VRMByteData;
-            GameObject go;
-#if UNITY_WEBGL
-            VRMByteData = VRMLoadUniRx.GetVRMData();
-#else
-            using (var uwr = UnityWebRequest.Get(path))
-            {
-                await uwr.SendWebRequest();
-                VRMByteData = uwr.downloadHandler.data;
-            }
-#endif
-            context = new VRMImporterContext();
-            context.ParseGlb(VRMByteData);
-#if UNITY_WEBGL
-            context.Load();
-#else
-            await context.LoadAsyncTask();
-#endif
-            go =  context.Root;
-            context.ShowMeshes();
-           
+            var go = (GameObject)Instantiate(VRM);
             go.AddComponent<Blinker>();
             go.AddComponent<FaceUpdate>();
             var animator = go.GetComponent<Animator>();
@@ -122,25 +71,25 @@ namespace Live_V
 
         public void SwitchCamera(int index)
         {
-            if (mainCameraSwitcher)
-                mainCameraSwitcher.ChangePosition(cameraPoints[index], true);
+            /*if (mainCameraSwitcher)
+                mainCameraSwitcher.ChangePosition(cameraPoints[index], true);*/
         }
 
         public void StartAutoCameraChange()
         {
-            if (mainCameraSwitcher)
-                mainCameraSwitcher.StartAutoChange();
+            /*if (mainCameraSwitcher)
+                mainCameraSwitcher.StartAutoChange();*/
         }
 
         public void StopAutoCameraChange()
         {
-            if (mainCameraSwitcher)
-                mainCameraSwitcher.StopAutoChange();
+            /*if (mainCameraSwitcher)
+                mainCameraSwitcher.StopAutoChange();*/
         }
 
         public void  SwitchOverlays()
         {
-            screenoverlays.enabled = true;
+            
         }
 
         public void FastForward(float second)
@@ -169,13 +118,13 @@ namespace Live_V
         public void EndPerformance()
         {
             //Application.LoadLevel(0);
-            //SceneManager.LoadScene(0);
-            screenoverlays.enabled = true;
-            context.Dispose();
-            Destroy(LipsSyncContoller);
-            Destroy(mainCameraSwitcher);
-            foreach (var p in objectsNeedsActivation)
-                Destroy(p);
+            SceneManager.LoadScene(0);
+            //screenoverlays.enabled = true;
+            //context.Dispose();
+            //Destroy(LipsSyncContoller);
+            //Destroy(mainCameraSwitcher);
+            //foreach (var p in objectsNeedsActivation)
+                //Destroy(p);
         }
 
     }
