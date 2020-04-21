@@ -6,12 +6,7 @@ on:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-  UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
-  with:
-    projectPath : E:\Live-V
-    unityVersion :2019.2.21f
-    targetPlatform: StandaloneWindows64 
+        
 jobs:
   build:
     name: Build my project
